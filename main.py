@@ -5,7 +5,7 @@ __copyright__ = "Howard C Lovatt, 2021 onwards."
 __license__ = "MIT https://opensource.org/licenses/MIT."
 __repository__ = "https://github.com/hlovatt/upythonstatmechex"
 __description__ = "``statmach`` traffic light example for MicroPython."
-__version__ = "0.0.5"  # Version set by https://github.com/hlovatt/tag2ver
+__version__ = "1.0.1"  # Version set by https://github.com/hlovatt/tag2ver
 
 from statmach import State, Machine
 from pyb import LED, Timer, wfi, Switch
@@ -51,11 +51,11 @@ def main():
     flashing_red = FlashingRed()
 
     traffic_lights = Machine(initial_state=start)  # The traffic light machine.
-    traffic_lights.actions[Events.RED_TIMEOUT] = (flashing_red, None)  # Catch anything unexpected.
-    traffic_lights.actions[Events.AMBER_TIMEOUT] = (flashing_red, None)
-    traffic_lights.actions[Events.GREEN_TIMEOUT] = (flashing_red, None)
-    traffic_lights.actions[Events.ERROR] = (flashing_red, None)
-    traffic_lights.actions[Events.START] = (flashing_red, None)
+    traffic_lights.actions[Events.RED_TIMEOUT] = flashing_red.action  # Catch anything unexpected.
+    traffic_lights.actions[Events.AMBER_TIMEOUT] = flashing_red.action
+    traffic_lights.actions[Events.GREEN_TIMEOUT] = flashing_red.action
+    traffic_lights.actions[Events.ERROR] = flashing_red.action
+    traffic_lights.actions[Events.START] = flashing_red.action
 
     tl_fire_ref = traffic_lights.fire  # Store the function reference locally to avoid allocation in interrupt.
     error = Switch()
@@ -83,10 +83,10 @@ def main():
     green = LEDState(led_num=2, time_on=3, event=Events.GREEN_TIMEOUT)
     amber = LEDState(led_num=3, time_on=0.5, event=Events.AMBER_TIMEOUT)
 
-    red.actions[Events.RED_TIMEOUT] = (green, None)
-    green.actions[Events.GREEN_TIMEOUT] = (amber, None)
-    amber.actions[Events.AMBER_TIMEOUT] = (red, None)
-    start.actions[Events.START] = (red, None)
+    red.actions[Events.RED_TIMEOUT] = green.action
+    green.actions[Events.GREEN_TIMEOUT] = amber.action
+    amber.actions[Events.AMBER_TIMEOUT] = red.action
+    start.actions[Events.START] = red.action
 
     with traffic_lights:
         _ = traffic_lights.fire(event=Events.START)  # Start the machine once all the setup is complete.
