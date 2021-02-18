@@ -6,7 +6,7 @@ __copyright__ = "Howard C Lovatt, 2021 onwards."
 __license__ = "MIT https://opensource.org/licenses/MIT."
 __repository__ = "https://github.com/hlovatt/upythonstatmechex"
 __description__ = "``statmach`` traffic light example for MicroPython."
-__version__ = "1.0.1"  # Version set by https://github.com/hlovatt/tag2ver
+__version__ = "1.0.2"  # Version set by https://github.com/hlovatt/tag2ver
 
 import machine
 import pyb
