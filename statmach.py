@@ -119,7 +119,7 @@ class Machine:
 
     def __init__(self, *, initial_state):
         """
-        Create a state machine with an initial state, an optional identifier, and optional value.
+        Create a state machine with an initial state.
 
         :param initial_state: initial state of the machine.
         :raises AssertionError: if initial state is ``None``.
